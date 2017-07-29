@@ -14,14 +14,31 @@ GO
 		Name VARCHAR (50) NOT NULL,
 		Address_col VARCHAR (50),
 		Phone VARCHAR (20) 
-);
+	);
 
-	
 		CREATE TABLE tbl_BookAuthors (
 		Book_Id INT NOT NULL CONSTRAINT fk_Book_Id FOREIGN KEY REFERENCES tbl_Book(Book_Id) ON UPDATE CASCADE ON DELETE CASCADE, 
 		Author_Name VARCHAR (50) NOT NULL,
 	);
 
+	CREATE TABLE tbl_Borrower (
+		Card_No INT PRIMARY KEY NOT NULL IDENTITY (100,1),
+		Name VARCHAR (50) NOT NULL,
+		Address_col VARCHAR (50),
+		Phone VARCHAR (20) 
+	);
+
+	CREATE TABLE tbl_LibraryBranch (
+		Branch_Id INT PRIMARY KEY NOT NULL IDENTITY (500,10),
+		Branch_Name VARCHAR (50) NOT NULL,
+		Address_col VARCHAR (50),
+	);
+
+	CREATE TABLE tbl_BookCopies (
+		Book_Id INT NOT NULL CONSTRAINT fk_Book_Id3 FOREIGN KEY REFERENCES tbl_Book(Book_Id) ON UPDATE CASCADE ON DELETE CASCADE,
+		Branch_Id INT NOT NULL CONSTRAINT fk_Branch_Id2 FOREIGN KEY REFERENCES tbl_LibraryBranch(Branch_Id) ON UPDATE CASCADE ON DELETE CASCADE,
+		No_Of_Copies INT
+	);
 
 	CREATE TABLE tbl_BookLoans (
 		Book_Id INT NOT NULL CONSTRAINT fk_Book_Id2 FOREIGN KEY REFERENCES tbl_Book(Book_Id) ON UPDATE CASCADE ON DELETE CASCADE, 
@@ -31,33 +48,12 @@ GO
 		Due_Date DATE NOT NULL
 	);
 
-
-	CREATE TABLE tbl_BookCopies (
-		Book_Id INT NOT NULL CONSTRAINT fk_Book_Id3 FOREIGN KEY REFERENCES tbl_Book(Book_Id) ON UPDATE CASCADE ON DELETE CASCADE,
-		Branch_Id INT NOT NULL CONSTRAINT fk_Branch_Id2 FOREIGN KEY REFERENCES tbl_LibraryBranch(Branch_Id) ON UPDATE CASCADE ON DELETE CASCADE,
-		No_Of_Copies INT
-	);
-
-
-	CREATE TABLE tbl_Borrower (
-		Card_No INT PRIMARY KEY NOT NULL IDENTITY (100,1),
-		Name VARCHAR (50) NOT NULL,
-		Address_col VARCHAR (50),
-		Phone VARCHAR (20) 
-);
-
-	CREATE TABLE tbl_LibraryBranch (
-		Branch_Id INT PRIMARY KEY NOT NULL IDENTITY (500,10),
-		Branch_Name VARCHAR (50) NOT NULL,
-		Address_col VARCHAR (50),
-	);
-
 	<------END TABEL CREATION ---------------------------------------------------
 
 	<------------------TABLE POPULATION --------------------------------------------
 
 	
-	INSERT INTO tbl_Book
+		INSERT INTO tbl_Book
 			(Title, Publisher_Name)
 			VALUES 
 			('Norwegian Wood','Harry Abrams'),
@@ -100,7 +96,7 @@ GO
 
 			UPDATE tbl_Book SET Publisher_name = 'Vintage' WHERE Publisher_name = 'Vinatage';
 
-			INSERT INTO tbl_Publisher
+		INSERT INTO tbl_Publisher
 			(Name, Address_col, Phone)
 			VALUES 
 			('Harry Abrams','195 Broadway','UNKNOWN'),
@@ -121,7 +117,7 @@ GO
 			('Doubleday','1745 Broadway','212-940-7390'),
 			('Spectra','1745 Broadway','212-940-7390')
 
-			INSERT INTO tbl_BookAuthors
+		INSERT INTO tbl_BookAuthors
 			(Book_Id, Author_Name)
 			VALUES 
 			(1,'Lars Mytting'),
@@ -162,7 +158,7 @@ GO
 			(36,'Robin Hobb'),
 			(37,'Robin Hobb')
 
-INSERT INTO tbl_LibraryBranch
+		INSERT INTO tbl_LibraryBranch
 			(Branch_Name, Address_col )
 			VALUES 
 			('Sharpstown','300 Elm St'),
@@ -170,7 +166,7 @@ INSERT INTO tbl_LibraryBranch
 			('Sahara West','1600 W Sahara'),
 			('Enterprise','800 Green Valley')
 
-INSERT INTO tbl_BookCopies
+		INSERT INTO tbl_BookCopies
 			(Book_Id, Branch_Id, No_Of_Copies)
 			VALUES 
 			(1,500,4),
@@ -214,9 +210,11 @@ INSERT INTO tbl_BookCopies
 			(1,530,3),
 			(18,530,5),
 			(5,530,2),
-			(37,500,4)
+			(37,500,4),
+			(24,500,3),
+			(25,510,3)
 
-INSERT INTO tbl_Borrower
+		INSERT INTO tbl_Borrower
 			(Name, Address_col, Phone)
 			VALUES 
 			('Chris Thile','86 Green St','555-555-5555'),
@@ -230,7 +228,7 @@ INSERT INTO tbl_Borrower
 			('Tim O''Brien','98 Violet St','111-111-1111'),
 			('Alison Brown','79 Indigo St','123-456-7891')
 
-INSERT INTO tbl_BookLoans
+		INSERT INTO tbl_BookLoans
 			(Book_Id, Branch_Id, Card_No, Date_Out, Due_Date)
 			VALUES 
 			(1,500,100,'2016-12-24','2016-01-24'),
@@ -252,40 +250,47 @@ INSERT INTO tbl_BookLoans
 			(17,510,101,'2017-02-18','2017-03-18'),
 			(18,510,101,'2017-02-18','2017-03-18'),
 			(19,510,101,'2017-02-18','2017-03-18'),
-			(20,510,102,'2017-05-03','2016-06-03'),
-			(21,520,102,'2017-05-03','2016-06-03'),
-			(22,520,102,'2017-05-03','2016-06-03'),
-			(23,520,102,'2017-05-03','2016-06-03'),
-			(24,520,102,'2017-05-03','2016-06-03'),
-			(25,520,103,'2017-04-15','2016-05-15'),
-			(26,520,103,'2017-04-15','2016-05-15'),
-			(27,520,104,'2017-04-15','2016-05-15'),
-			(28,520,104,'2017-04-15','2016-05-15'),
-			(29,520,104,'2017-04-15','2016-05-15'),
-			(30,520,104,'2017-04-15','2016-05-15'),
-			(31,530,104,'2017-04-15','2016-05-15'),
-			(32,530,104,'2017-04-15','2016-05-15'),
-			(33,530,104,'2017-04-15','2016-05-15'),
-			(34,530,104,'2017-04-15','2016-05-15'),
-			(35,530,104,'2017-04-15','2016-05-15'),
-			(36,530,105,'2017-01-22','2016-02-22'),
-			(37,530,105,'2017-01-22','2016-02-22'),
-			(1,530,105,'2017-01-22','2016-02-22'),
-			(2,500,105,'2017-01-22','2016-02-22'),
-			(3,500,107,'2017-01-22','2016-02-22'),
-			(4,500,107,'2017-01-22','2016-02-22'),
-			(5,530,108,'2017-05-08','2016-06-08'),
-			(6,500,108,'2017-05-08','2016-06-08'),
-			(7,500,108,'2017-05-08','2016-06-08'),
-			(8,500,108,'2017-05-08','2016-06-08'),
-			(9,500,108,'2017-05-08','2016-06-08'),
-			(10,500,108,'2017-05-08','2016-06-08'),
-			(11,510,108,'2017-05-08','2016-06-08'),
-			(12,510,108,'2017-05-08','2016-06-08'),
-			(13,510,109,'2017-06-24','2016-07-24')
+			(20,510,102,'2017-05-03','2017-06-03'),
+			(21,520,102,'2017-05-03','2017-06-03'),
+			(22,520,102,'2017-05-03','2017-06-03'),
+			(23,520,102,'2017-05-03','2017-06-03'),
+			(24,520,102,'2017-05-03','2017-06-03'),
+			(25,520,103,'2017-04-15','2017-05-15'),
+			(26,520,103,'2017-04-15','2017-05-15'),
+			(27,520,104,'2017-04-15','2017-05-15'),
+			(28,520,104,'2017-04-15','2017-05-15'),
+			(29,520,104,'2017-04-15','2017-05-15'),
+			(30,520,104,'2017-04-15','2017-05-15'),
+			(31,530,104,'2017-04-15','2017-05-15'),
+			(32,530,104,'2017-04-15','2017-05-15'),
+			(33,530,104,'2017-04-15','2017-05-15'),
+			(34,530,104,'2017-04-15','2017-05-15'),
+			(35,530,104,'2017-04-15','2017-05-15'),
+			(36,530,105,'2017-01-22','2017-02-22'),
+			(37,530,105,'2017-01-22','2017-02-22'),
+			(1,530,105,'2017-01-22','2017-02-22'),
+			(2,500,105,'2017-01-22','2017-02-22'),
+			(3,500,107,'2017-01-22','2017-02-22'),
+			(4,500,107,'2017-01-22','2017-02-22'),
+			(5,530,108,'2017-05-08','2017-06-08'),
+			(6,500,108,'2017-05-08','2017-06-08'),
+			(7,500,108,'2017-05-08','2017-06-08'),
+			(8,500,108,'2017-05-08','2017-06-08'),
+			(9,500,108,'2017-05-08','2017-06-08'),
+			(10,500,108,'2017-05-08','2017-06-08'),
+			(11,510,108,'2017-05-08','2017-06-08'),
+			(12,510,108,'2017-05-08','2017-06-08'),
+			(13,510,109,'2017-06-24','2017-07-24'),
+			(24,500,109,'2017-06-24','2017-07-24'),
+			(25,510,109,'2017-06-24','2017-07-24')
 
-<------------------END OF POPULATION-----------------------------
-		
+<------------------END OF POPULATION----------------------------
+
+			USE MyLibrary
+			GO
+
+			CREATE SCHEMA Lib
+
 			SELECT * FROM tbl_Book 
 			SELECT * FROM tbl_BookAuthors
 			SELECT * FROM tbl_BookCopies
@@ -294,13 +299,6 @@ INSERT INTO tbl_BookLoans
 			SELECT * FROM tbl_LibraryBranch
 			SELECT * FROM tbl_Publisher
 
-			UPDATE tbl_BookLoans SET Due_Date = '2017-07-24' WHERE Due_Date = '2016-07-24';
-
-			USE MyLibrary
-			GO
-
-			CREATE SCHEMA Lib
-
 <--------STORED PROCEDURE 1---------------------------------------
 /* How many copies of the book titled "The Lost Tribe" are owned 
 by the library branch whose name is "Sharpstown"? */
@@ -308,16 +306,16 @@ by the library branch whose name is "Sharpstown"? */
 	USE MyLibrary
 	GO
 
-	CREATE PROCEDURE Lib.uspLostTribe
+	CREATE PROCEDURE Lib.uspLostTribesCopies
 	AS
-	SELECT SUM(No_Of_Copies)
+	SELECT (No_Of_Copies) AS Copies_of_Title
 	FROM tbl_BookCopies b1
 	INNER JOIN tbl_Book b2 ON b2.Book_Id = b1.Book_Id
 	INNER JOIN tbl_LibraryBranch b3 ON b3.Branch_Id = b1.Branch_Id 
 	WHERE Title = 'The Lost Tribe' AND Branch_Name = 'Sharpstown'
 	GO
 
-EXEC Lib.uspLostTribe
+	EXEC Lib.uspLostTribesCopies
 
 <--------END OF STORED PROCEDURE 1-------------------------------
 
@@ -328,7 +326,7 @@ each library branch? */
 	USE MyLibrary
 	GO
 
-	CREATE PROCEDURE Lib.uspLostTribeCopies
+	CREATE PROCEDURE Lib.uspLostTribeCopiesEach
 	AS
 	SELECT b2.Title, b3.Branch_Name, b1.No_Of_Copies
 	FROM tbl_BookCopies b1
@@ -337,7 +335,7 @@ each library branch? */
 	WHERE Title = 'The Lost Tribe' 
 	GO
 
-EXEC Lib.uspLostTribeCopiesEachBranch
+	EXEC Lib.uspLostTribeCopiesEach
 
 <--------END OF STORED PROCEDURE 2-------------------------------
 
@@ -356,7 +354,7 @@ checked out. */
 	WHERE Date_Out <= @Date_Out
 	GO
 
-EXEC Lib.uspNo_Books_Checked_Out_Now @Date_Out = '2017-06-22'
+	EXEC Lib.uspCheckedOutNow @Date_Out = '2017-06-22'
 
 
 <--------END OF STORED PROCEDURE 3-------------------------------
@@ -379,26 +377,13 @@ name, and the borrower's address. */
 	WHERE Due_Date = GETDATE() AND Branch_Name = 'Sharpstown'
 	GO
 
-EXEC Lib.uspSharpstownDue 
+	EXEC Lib.uspSharpstownDue 
 
 <--------END OF STORED PROCEDURE 4-------------------------------
 
 <--------STORED PROCEDURE 5---------------------------------------
 /* For each library branch, retrieve the branch name and the total 
 number of books loaned out from that branch.  */
-
---This is v.2 of Stored Procedure 5.
-	USE MyLibrary
-	GO
-
-	CREATE PROCEDURE Lib.NumOfBooksByBranchVersion2
-	AS
-
-	SELECT COUNT (tbl_BookLoans.Branch_Id) AS Books_Loaned_Out, tbl_LibraryBranch.Branch_Name
-	FROM tbl_BookLoans
-	INNER JOIN tbl_LibraryBranch
-	ON tbl_BookLoans.Branch_Id = tbl_LibraryBranch.Branch_Id
-	GROUP BY tbl_LibraryBranch.Branch_Name
 
 
 --This is v.1 of Stored Procedure 5. It uses set variables and prints them.
@@ -420,6 +405,22 @@ number of books loaned out from that branch.  */
 	PRINT 'Sahara West Branch Books Currently Loaned Out:' + char(9) + CONVERT(varchar(50),@SaharaBooks) + char(13);  
 	PRINT 'Enterprise Branch Books Currently Loaned Out:' + char(9) + CONVERT(varchar(50),@EnterpriseBooks) + char(13) 
 
+	EXEC Lib.NumOfBooksByBranchVersion1
+
+--This is v.2 of Stored Procedure 5.
+	USE MyLibrary
+	GO
+
+	CREATE PROCEDURE Lib.NumOfBooksByBranchVersion2
+	AS
+
+	SELECT COUNT (tbl_BookLoans.Branch_Id) AS Books_Loaned_Out, tbl_LibraryBranch.Branch_Name
+	FROM tbl_BookLoans
+	INNER JOIN tbl_LibraryBranch
+	ON tbl_BookLoans.Branch_Id = tbl_LibraryBranch.Branch_Id
+	GROUP BY tbl_LibraryBranch.Branch_Name
+
+	EXEC Lib.NumOfBooksByBranchVersion2
 
 <--------END OF STORED PROCEDURE 5-------------------------------
 
@@ -441,80 +442,7 @@ for all borrowers who have more than five books checked out. */
 	HAVING
 	COUNT(*) > 5 
  
- <------------------Other Option --------------------
-
-	USE MyLibrary
-	GO
-
-	CREATE PROCEDURE Lib.uspMoreThanFive 
-	AS
-
-	DECLARE @Borrower100 INT
-	SELECT @Borrower100 = COUNT(b1.Card_No)
-	FROM tbl_BookLoans b1
-	WHERE Card_No = 100
-
-	DECLARE @Borrower101 INT
-	SELECT @Borrower101 = COUNT(b1.Card_No)
-	FROM tbl_BookLoans b1
-	WHERE Card_No = 101
-
-	DECLARE @Borrower102 INT
-	SELECT @Borrower102 = COUNT(b1.Card_No)
-	FROM tbl_BookLoans b1
-	WHERE Card_No = 102
-
-	DECLARE @Borrower103 INT
-	SELECT @Borrower103 = COUNT(b1.Card_No)
-	FROM tbl_BookLoans b1
-	WHERE Card_No = 103
-
-	DECLARE @Borrower104 INT
-	SELECT @Borrower104 = COUNT(b1.Card_No)
-	FROM tbl_BookLoans b1
-	WHERE Card_No = 104
-
-	DECLARE @Borrower105 INT
-	SELECT @Borrower105 = COUNT(b1.Card_No)
-	FROM tbl_BookLoans b1
-	WHERE Card_No = 105
-
-	DECLARE @Borrower106 INT
-	SELECT @Borrower106 = COUNT(b1.Card_No)
-	FROM tbl_BookLoans b1
-	WHERE Card_No = 106
-
-	DECLARE @Borrower107 INT
-	SELECT @Borrower107 = COUNT(b1.Card_No)
-	FROM tbl_BookLoans b1
-	WHERE Card_No = 107
-
-	DECLARE @Borrower108 INT
-	SELECT @Borrower108 = COUNT(b1.Card_No)
-	FROM tbl_BookLoans b1
-	WHERE Card_No = 108
-
-	DECLARE @Borrower109 INT
-	SELECT @Borrower109 = COUNT(b1.Card_No)
-	FROM tbl_BookLoans b1
-	WHERE Card_No = 109
-
-	SELECT DISTINCT b1.Name, b1.Address_col, @Borrower100, @Borrower101, @Borrower102, @Borrower103, @Borrower104, @Borrower105, @Borrower106, @Borrower107, @Borrower108, @Borrower109
-	FROM tbl_Borrower b1
-	INNER JOIN tbl_BookLoans b2 ON b2.Card_No = b1.Card_No
-	WHERE b1.Card_No = 100 IF @Borrower100 > 5
-	AND b1.Card_No = 101 IF @Borrower101 > 5
-	AND b1.Card_No = 102 IF @Borrower102 > 5
-	AND b1.Card_No = 103 IF @Borrower103 > 5
-	AND b1.Card_No = 104 IF @Borrower104 > 5
-	AND b1.Card_No = 105 IF @Borrower105 > 5
-	AND b1.Card_No = 106 IF @Borrower106 > 5
-	AND b1.Card_No = 107 IF @Borrower107 > 5
-	AND b1.Card_No = 108 IF @Borrower108 > 5
-	AND b1.Card_No = 109 IF @Borrower109 > 5
-
 	EXEC Lib.uspMoreThanFive
-
 
 <--------END OF STORED PROCEDURE 6-------------------------------
 
@@ -526,7 +454,6 @@ name is "Central". */
 	USE MyLibrary
 	GO
 
-
 	CREATE PROCEDURE Lib.uspGetKing 
 	AS
 
@@ -537,13 +464,7 @@ name is "Central". */
 	INNER JOIN tbl_BookAuthors b4 ON b4.Book_Id = b2.Book_Id
 	WHERE Author_Name = 'Stephen King' AND Branch_Name = 'Central'
 
+	EXEC Lib.uspGetKing 
 
 <--------END OF STORED PROCEDURE 7-------------------------------
-  
-
---Sub-queries!!!! This is for the query that asks for the person with no books out.
-
-  SELECT Name FROM BORROWER
-	WHERE NOT EXISTS (Select * from BOOK_LOANS
-	WHERE BOOK_LOANS.CardNo=BORROWER.CardNo);
   
