@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChallengeDaysBetweenDates", "ChallengeDaysBetweenDates\ChallengeDaysBetweenDates.csproj", "{7F07B61F-458F-4DF0-B3A2-33D81C1E6464}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7F07B61F-458F-4DF0-B3A2-33D81C1E6464}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F07B61F-458F-4DF0-B3A2-33D81C1E6464}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F07B61F-458F-4DF0-B3A2-33D81C1E6464}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F07B61F-458F-4DF0-B3A2-33D81C1E6464}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {273B726A-F5FC-4F76-8181-EEEAD111C354}
+	EndGlobalSection
+EndGlobal
