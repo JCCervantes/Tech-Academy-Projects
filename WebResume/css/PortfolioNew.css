@@ -34,6 +34,10 @@
     min-height: 100%;
 }
 
+.row-fluid {
+    opacity: .85
+}
+
 .caption {
     position: absolute;
     left: 0;
